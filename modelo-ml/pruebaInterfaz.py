@@ -4,6 +4,7 @@ from sklearn.linear_model import LinearRegression
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import plotly.graph_objs as go
 
 # Carga y preparación de datos
 df = pd.read_csv('../input/hourly-energy-consumption/test.csv')
@@ -37,5 +38,5 @@ def update_graph(date_value):
     fig.add_trace(go.Scatter(x=[date_value], y=[model.predict([[date_value]])[0]]))
     return fig
 
-if _name_ == '_main_':
+if __name__ == '_main_':
     app.run_server()
