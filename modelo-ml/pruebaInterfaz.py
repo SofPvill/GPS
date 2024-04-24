@@ -6,7 +6,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 
 # Carga y preparación de datos
-df = pd.read_csv('input/hourly-energy-consumption/test.csv')
+df = pd.read_csv('../input/hourly-energy-consumption/test.csv')
 
 # Análisis de tendencias y patrones
 df.plot(kind='line', x='date', y='demand')
