@@ -1,0 +1,2 @@
+Aquí se desarrollará el server, este archivo es sólo
+para marcar una distinción en las carpetas
