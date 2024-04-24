@@ -6,7 +6,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 
 # Carga y preparación de datos
-df = pd.read_csv('input/hourly-energy-consumption/PJME_hourly.csv')
+df = pd.read_csv('input/hourly-energy-consumption/test.csv')
 
 # Análisis de tendencias y patrones
 df.plot(kind='line', x='date', y='demand')
@@ -19,7 +19,7 @@ model = LinearRegression()
 model.fit(X, y)
 
 # Creación de la interfaz visual
-app = dash.Dash(_name_)
+app = dash.Dash(__name__)
 
 app.layout = html.Div([
     html.H1('Demand Prediction'),
