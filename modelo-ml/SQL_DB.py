@@ -13,28 +13,39 @@ connection_string = f"""
     pwd = Emi7337175.;
 """
 
-conn = odbc.connect(connection_string)
-#print(conn)
-
 # CONEXION
 conn = odbc.connect(connection_string)
 
 # SE CREA EL CURSOS 
 cursor = conn.cursor()
 
+#----------------PARA PODER LEER DATOS DE LA BASE DE DATOS
+
 # AQUI SE ESCRIBE LA INSTRUCCION DE SQL
-sql_query = "SELECT * FROM Usuario"
+#Instrucciones SELECT
+#sql_query = "SELECT * FROM Usuario"
+
+# EJECUTAR LA INSTRUCCION
+#cursor.execute(sql_query)
+
+# AGARRAR LOS RESULTADOS
+#results = cursor.fetchall()
+
+# IMPRIMIR LOS RESULTADOS
+#for row in results:
+#    print(row)
+
+#----------------MANIPULAR DATOS EN LA BASE DE DATOS
+
+#Instrucciones de INSERT, UPDATE y DELETE
+sql_query = "insert into Usuario (idUsuario, Nombre, Rol, Contrasena) values ('2222', 'Pepe', 'Admin', '1234')"
 
 # EJECUTAR LA INSTRUCCION
 cursor.execute(sql_query)
 
-# AGARRAR LOS RESULTADOS
-results = cursor.fetchall()
+#GUARDAR LOS CAMBIOS HECHOS
+conn.commit()
 
-# IMPRIMIR LOS RESULTADOS
-for row in results:
-    print(row)
-
-# CIERRA EL CURSOS Y LA CONEXION
+#-- CIERRA EL CURSOS Y LA CONEXION
 cursor.close()
 conn.close()
