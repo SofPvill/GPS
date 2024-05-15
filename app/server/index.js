@@ -9,11 +9,11 @@ app.post('/predict', upload.single('csv'), (req, res) => {
     let options = {
         mode: 'text',
         pythonOptions: ['-u'],
-        scriptPath: './',
+        scriptPath: './../../model-ml/',
         args: [req.file.path]
     };
 
-    PythonShell.run('prediction-script.py', options, function(err, result) {
+    PythonShell.run('./model.py', options, function(err, result) {
         if (err) res.send(err);
         res.send(result);
     });

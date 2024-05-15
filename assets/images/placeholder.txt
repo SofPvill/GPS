@@ -1,0 +1,2 @@
+Archivo que sólo ocupa espacio para que
+git mantenga seguimiento de la carpeta
