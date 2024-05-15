@@ -12,6 +12,8 @@ from sklearn.metrics import mean_squared_error
 import warnings
 import json
 
+# model importation
+import pickle
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
@@ -146,3 +148,5 @@ results = {
 results_json = json.dumps(results)
 
 print("JSON Results: ", results_json)
+
+pickle.dump(model, open('model.pkl', 'wb'))
