@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import * as XLSX from 'xlsx';
+import React, {  } from 'react';
+//import * as XLSX from 'xlsx';
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
@@ -16,20 +16,20 @@ import StatBox from "../../components/StatBox";
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [excelData, setExcelData] = useState(null);
+  //const [excelData, setExcelData] = useState(null);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
 
-    reader.onload = (e) => {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      const excelData = XLSX.utils.sheet_to_json(sheet);
-      setExcelData(excelData);
-    };
+    //reader.onload = (e) => {
+      //const data = new Uint8Array(e.target.result);
+     // const workbook = XLSX.read(data, { type: 'array' });
+     // const sheetName = workbook.SheetNames[0];
+      //const sheet = workbook.Sheets[sheetName];
+      //const excelData = XLSX.utils.sheet_to_json(sheet);
+     // setExcelData(excelData);
+   // };
 
     reader.readAsArrayBuffer(file);
   };
@@ -161,7 +161,7 @@ const Dashboard = () => {
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Revenue Generated
+                Seguimiento de demanda
               </Typography>
               <Typography
                 variant="h3"
@@ -198,7 +198,7 @@ const Dashboard = () => {
             p="15px"
           >
             <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-              Recent Transactions
+              Transacciones Recientes
             </Typography>
           </Box>
           {mockTransactions.map((transaction, i) => (
@@ -245,7 +245,7 @@ const Dashboard = () => {
             fontWeight="600"
             sx={{ padding: "30px 30px 0 30px" }}
           >
-            Sales Quantity
+            Ventas realizadas
           </Typography>
           <Box height="250px" mt="-20px">
             <BarChart isDashboard={true} />

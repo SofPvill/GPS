@@ -39,7 +39,7 @@ const Calendar = () => {
   const handleEventClick = (selected) => {
     if (
       window.confirm(
-        `Are you sure you want to delete the event '${selected.event.title}'`
+        `Estas seguro de borrar este evento? '${selected.event.title}'`
       )
     ) {
       selected.event.remove();
@@ -112,12 +112,12 @@ const Calendar = () => {
             initialEvents={[
               {
                 id: "12315",
-                title: "All-day event",
+                title: "Eventos del dia",
                 date: "2022-09-14",
               },
               {
                 id: "5123",
-                title: "Timed event",
+                title: "Evento en el calendario",
                 date: "2022-09-28",
               },
             ]}
