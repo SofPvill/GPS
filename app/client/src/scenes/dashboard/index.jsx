@@ -1,12 +1,9 @@
-import React, {  } from 'react';
-//import * as XLSX from 'xlsx';
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import React, { useState } from 'react';
+import { Box, Button, IconButton, Typography, useTheme, TextField } from "@mui/material";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
@@ -16,22 +13,52 @@ import StatBox from "../../components/StatBox";
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  //const [excelData, setExcelData] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+  const [prediction, setPrediction] = useState('0');
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-
-    //reader.onload = (e) => {
-      //const data = new Uint8Array(e.target.result);
-     // const workbook = XLSX.read(data, { type: 'array' });
-     // const sheetName = workbook.SheetNames[0];
-      //const sheet = workbook.Sheets[sheetName];
-      //const excelData = XLSX.utils.sheet_to_json(sheet);
-     // setExcelData(excelData);
-   // };
-
     reader.readAsArrayBuffer(file);
+  };
+
+  const handleInputChange = (event) => {
+    console.log("Input changed:", event.target.value);
+    setInputValue(event.target.value);
+  };
+
+  const handleButtonClick = () => {
+    console.log("Button clicked"); 
+    const timeValue = parseInt(inputValue, 10);
+    console.log("Time value", timeValue)
+
+    if (!isNaN(timeValue)) {
+      const data = {
+        Time: timeValue
+      };
+
+      fetch('http://127.0.0.1:3000/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.prediction && data.prediction.length > 0) {
+            setPrediction(data.prediction[0].toFixed(2));
+          } else {
+            alert('Error: Respuesta inesperada del servidor');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error: No se pudo realizar la predicción');
+        });
+    } else {
+      alert('Por favor, ingrese un valor numérico válido');
+    }
   };
 
   return (
@@ -65,25 +92,40 @@ const Dashboard = () => {
         gap="20px"
       >
         {/* ROW 1 */}
+        {/* Box para predicción de demanda */}
+
         <Box
-          gridColumn="span 3"
+          gridColumn="span 6" // Expande el Box para ocupar más columnas
           backgroundColor={colors.primary[400]}
           display="flex"
+          flexDirection="column" // Permite organizar los elementos en una columna
           alignItems="center"
           justifyContent="center"
+          p="18px" // Añade un poco de padding
         >
           <StatBox
-            title="12,361"
-            subtitle="Emails Enviados"
-            progress="0.75"
-            increase="+14%"
-            icon={
-              <EmailIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
+            title={prediction}
+            subtitle="Demanda Total: Producto J"
           />
+          {/* Formulario y Botón */}
+          <Box mt="8px" width="100%" display="flex" justifyContent="center">
+            <TextField
+              variant="outlined"
+              value={inputValue}
+              onChange={handleInputChange}
+              placeholder="Ingrese el tiempo de demanda"
+              sx={{ mr: "8px", width: "70%" }} // Ajusta el ancho del campo de texto
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleButtonClick}
+            >
+              Enviar
+            </Button>
+          </Box>
         </Box>
+
         <Box
           gridColumn="span 3"
           backgroundColor={colors.primary[400]}
@@ -103,25 +145,8 @@ const Dashboard = () => {
             }
           />
         </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            title="32,441"
-            subtitle="Nuevos Clientes"
-            progress="0.30"
-            increase="+5%"
-            icon={
-              <PersonAddIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
-          />
-        </Box>
+
+
         <Box
           gridColumn="span 3"
           backgroundColor={colors.primary[400]}
